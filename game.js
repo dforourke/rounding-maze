@@ -46,5 +46,5 @@ $('restart').addEventListener('click',()=>{if(confirm('Start a new maze? Your cu
 for(let id of ['size','difficulty','visibility'])$(id).addEventListener('change',()=>{if(confirm('Changing settings starts a new maze. Continue?'))reset();else{$('size').value=String(s.n);$('difficulty').value=s.mode;$('visibility').value=s.visibility||'classic'}});
 $('achievements').addEventListener('click',()=>{let a=new Set(awardKeys()),items=[['first','🏆 First Treasure'],['progressive','📚 Progressive Explorer'],['expert','🧩 Expert Labyrinth'],['navigator','🧭 Clever Navigator']];$('awardList').replaceChildren();items.forEach(([k,label])=>{let d=document.createElement('div');d.textContent=(a.has(k)?'✓ ':'🔒 ')+label;$('awardList').appendChild(d)});$('awards').hidden=false;$('awards').scrollIntoView({behavior:'smooth',block:'nearest'})});$('closeAwards').addEventListener('click',()=>{$('awards').hidden=true});
 if(!restore())generate(23,'progressive','classic');save();render();
-if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{}));
 })();
